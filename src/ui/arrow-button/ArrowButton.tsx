@@ -7,23 +7,23 @@ import clsx from 'clsx';
 export type OnClick = () => void;
 
 type ArrowButtonProps = {
-	isOpen: boolean;
-	onClick: OnClick;
+	isOpen: boolean; // Состояние кнопки: открыта или закрыта
+	onClick: OnClick;  // Функция, которая будет вызвана при клике на кнопку
 };
 
 export const ArrowButton = ({ isOpen, onClick }: ArrowButtonProps) => {
 	return (
 		/* Не забываем указаывать role и aria-label атрибуты для интерактивных элементов */
 		<div
-			role='button'
-			aria-label='Открыть/Закрыть форму параметров статьи'
-			tabIndex={0}
-			className={clsx(styles.container, { [styles.container_open]: isOpen })}
-			onClick={onClick}>
+			role='button'  // Указываем, что это кнопка для доступности
+			aria-label='Открыть/Закрыть форму параметров статьи'  // Описание для screen readers
+			tabIndex={0}  // Делает элемент фокусируемым с помощью клавиатуры.
+			className={clsx(styles.container, { [styles.container_open]: isOpen })}  // Условные классы
+			onClick={onClick}>  
 			<img
 				src={arrow}
 				alt='иконка стрелочки'
-				className={clsx(styles.arrow, { [styles.arrow_open]: isOpen })}
+				className={clsx(styles.arrow, { [styles.arrow_open]: isOpen })}  // Условные классы
 			/>
 		</div>
 	);
