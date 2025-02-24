@@ -12,12 +12,12 @@ import { useOutsideClickClose } from './hooks/useOutsideClickClose';
 import styles from './Select.module.scss';
 
 type SelectProps = {
-	selected: OptionType | null;  // Выбранная опция. Если ничего не выбрано, значение равно null.
-	options: OptionType[];  //Массив опций, которые отображаются в выпадающем списке.
-	placeholder?: string;  //Текст, который отображается, если ничего не выбрано.
-	onChange?: (selected: OptionType) => void;  //Функция, которая вызывается при выборе опции. Она принимает выбранную опцию в качестве аргумента.
-	onClose?: () => void;  //Функция, которая вызывается при закрытии выпадающего списка.
-	title?: string;  //Заголовок выпадающего списка (опционально).
+	selected: OptionType | null; // Выбранная опция. Если ничего не выбрано, значение равно null.
+	options: OptionType[]; //Массив опций, которые отображаются в выпадающем списке.
+	placeholder?: string; //Текст, который отображается, если ничего не выбрано.
+	onChange?: (selected: OptionType) => void; //Функция, которая вызывается при выборе опции. Она принимает выбранную опцию в качестве аргумента.
+	onClose?: () => void; //Функция, которая вызывается при закрытии выпадающего списка.
+	title?: string; //Заголовок выпадающего списка (опционально).
 };
 
 export const Select = (props: SelectProps) => {
@@ -25,8 +25,8 @@ export const Select = (props: SelectProps) => {
 	// Состояние для управления открытием/закрытием выпадающего списка
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 	// Ссылки на DOM-элементы
-	const rootRef = useRef<HTMLDivElement>(null);  // Контейнер выпадающего списка
-	const placeholderRef = useRef<HTMLDivElement>(null);  // Элемент с текстом-заполнителем
+	const rootRef = useRef<HTMLDivElement>(null); // Контейнер выпадающего списка
+	const placeholderRef = useRef<HTMLDivElement>(null); // Элемент с текстом-заполнителем
 	// Класс опции (например, для применения стилей шрифта)
 	const optionClassName = selected?.optionClassName ?? '';
 
@@ -68,9 +68,9 @@ export const Select = (props: SelectProps) => {
 			<div
 				className={styles.selectWrapper}
 				ref={rootRef}
-				data-is-active={isOpen}  // Атрибут для стилизации активного состояния
+				data-is-active={isOpen} // Атрибут для стилизации активного состояния
 				data-testid='selectWrapper'>
-					{/* Иконка стрелки */}
+				{/* Иконка стрелки */}
 				<img src={arrowDown} alt='иконка стрелочки' className={styles.arrow} />
 				<div
 					className={clsx(
@@ -78,8 +78,8 @@ export const Select = (props: SelectProps) => {
 						(styles as Record<string, string>)[optionClassName] // Условные классы
 					)}
 					data-status={status}
-					data-selected={!!selected?.value}  // Атрибут для стилизации выбранного состояния
-					onClick={handlePlaceHolderClick}  // Обработчик клика
+					data-selected={!!selected?.value} // Атрибут для стилизации выбранного состояния
+					onClick={handlePlaceHolderClick} // Обработчик клика
 					role='button'
 					tabIndex={0}
 					ref={placeholderRef}>
@@ -89,7 +89,8 @@ export const Select = (props: SelectProps) => {
 								? selected?.className
 								: undefined
 						}>
-						{selected?.title || placeholder}  {/* Отображаем выбранное значение или текст-заполнитель */}
+						{selected?.title || placeholder}{' '}
+						{/* Отображаем выбранное значение или текст-заполнитель */}
 					</Text>
 				</div>
 				{/* Выпадающий список */}
@@ -101,7 +102,7 @@ export const Select = (props: SelectProps) => {
 								<Option
 									key={option.value}
 									option={option}
-									onClick={() => handleOptionClick(option)}  // Обработчик выбора опции
+									onClick={() => handleOptionClick(option)} // Обработчик выбора опции
 								/>
 							))}
 					</ul>

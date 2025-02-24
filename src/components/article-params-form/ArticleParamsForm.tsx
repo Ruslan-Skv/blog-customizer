@@ -11,7 +11,7 @@ import {
 	backgroundColors, // Массив опций для выбора цвета фона
 	contentWidthArr, // Массив опций для выбора ширины контента
 	fontSizeOptions, // Массив опций для выбора размера шрифта
-	defaultArticleState, // Начальное состояние параметров статьи
+	defaultArticleState, // Начальное состояние параметров
 	ArticleStateType, // Тип для состояния статьи
 } from 'src/constants/articleProps';
 import { useOutsideClickClose } from 'src/ui/select/hooks/useOutsideClickClose';
@@ -20,45 +20,32 @@ import styles from './ArticleParamsForm.module.scss';
 import { useState, useRef, SyntheticEvent } from 'react';
 import clsx from 'clsx';
 
-type SpacerProps = {
-	size: number;
-};
-// Компонент для рендера отступов
-const Spacer: React.FC<SpacerProps> = ({ size }) => {
-	const spacerStyle: React.CSSProperties = {
-		height: `${size}px`,
-	};
-	return <div style={spacerStyle}></div>;
-};
-
 // Тип для пропсов компонента ArticleParamsForm
 export type ArticleParamsFormProps = {
 	onChange: React.Dispatch<React.SetStateAction<ArticleStateType>>; // Функция для обновления состояния
 };
 
 export const ArticleParamsForm = ({ onChange }: ArticleParamsFormProps) => {
-	// Сохранение начального состояния в useRef (чтобы избежать повторного создания при рендере)
-	const defaultStateForm = useRef<ArticleStateType>(defaultArticleState);
 	// Ссылка на DOM-элемент aside (боковая панель)
 	const asideRef = useRef<HTMLDivElement | null>(null);
 	// Состояние для управления открытием/закрытием боковой панели
 	const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
 	// Состояния для каждого параметра
-	const [fontFamily, setfontFamily] = useState<OptionType>(
-		defaultStateForm.current.fontFamilyOption
+	const [fontFamily, setFontFamily] = useState<OptionType>(
+		defaultArticleState.fontFamilyOption
 	);
-	const [fontSize, setfontSize] = useState<OptionType>(
-		defaultStateForm.current.fontSizeOption
+	const [fontSize, setFontSize] = useState<OptionType>(
+		defaultArticleState.fontSizeOption
 	);
 	const [backgroundColor, setBackgroundColor] = useState<OptionType>(
-		defaultStateForm.current.backgroundColor
+		defaultArticleState.backgroundColor
 	);
 	const [fontColor, setFontColor] = useState<OptionType>(
-		defaultStateForm.current.fontColor
+		defaultArticleState.fontColor
 	);
 	const [contentWidth, setContentWidth] = useState<OptionType>(
-		defaultStateForm.current.contentWidth
+		defaultArticleState.contentWidth
 	);
 
 	useOutsideClickClose({
@@ -73,10 +60,10 @@ export const ArticleParamsForm = ({ onChange }: ArticleParamsFormProps) => {
 	};
 	// Обработчики изменения параметров
 	const changeFontFamily = (option: OptionType) => {
-		setfontFamily(option);
+		setFontFamily(option);
 	};
 	const changeFontSize = (option: OptionType) => {
-		setfontSize(option);
+		setFontSize(option);
 	};
 	const changeBackgroundColor = (option: OptionType) => {
 		setBackgroundColor(option);
@@ -104,13 +91,13 @@ export const ArticleParamsForm = ({ onChange }: ArticleParamsFormProps) => {
 	// Обработчик сброса формы к начальным значениям
 	const handleOnClickButtonReset = () => {
 		// Вызов функции onChange с начальным состоянием
-		onChange(defaultStateForm.current);
+		onChange(defaultArticleState);
 		// Сброс всех состояний к начальным значениям
-		setfontFamily(defaultStateForm.current.fontFamilyOption);
-		setfontSize(defaultStateForm.current.fontSizeOption);
-		setBackgroundColor(defaultStateForm.current.backgroundColor);
-		setFontColor(defaultStateForm.current.fontColor);
-		setContentWidth(defaultStateForm.current.contentWidth);
+		setFontFamily(defaultArticleState.fontFamilyOption);
+		setFontSize(defaultArticleState.fontSizeOption);
+		setBackgroundColor(defaultArticleState.backgroundColor);
+		setFontColor(defaultArticleState.fontColor);
+		setContentWidth(defaultArticleState.contentWidth);
 	};
 
 	return (
@@ -120,18 +107,21 @@ export const ArticleParamsForm = ({ onChange }: ArticleParamsFormProps) => {
 				className={clsx(styles.container, {
 					[styles.container_open]: isMenuOpen,
 				})}>
-				<form className={styles.form} onSubmit={handleOnSubmitForm}>
+				<form
+					className={styles.form}
+					onSubmit={handleOnSubmitForm}
+					onReset={handleOnClickButtonReset}>
 					<Text as='h2' size={31} weight={800} uppercase>
 						Задайте параметры
 					</Text>
-					<Spacer size={4} />
+					<div className={styles.spacing} />
 					<Select
 						options={fontFamilyOptions}
 						selected={fontFamily}
 						onChange={changeFontFamily}
 						title='шрифт'
 					/>
-					<Spacer size={24} />
+					<div className={styles.spacing} />
 					<RadioGroup
 						name='font-size'
 						options={fontSizeOptions}
@@ -139,37 +129,32 @@ export const ArticleParamsForm = ({ onChange }: ArticleParamsFormProps) => {
 						onChange={changeFontSize}
 						title='размер шрифта'
 					/>
-					<Spacer size={24} />
+					<div className={styles.spacing} />
 					<Select
 						options={fontColors}
 						selected={fontColor}
 						onChange={changeFontColor}
 						title='цвет шрифта'
 					/>
-					<Spacer size={24} />
+					<div className={styles.spacing} />
 					<Separator />
-					<Spacer size={24} />
+					<div className={styles.spacing} />
 					<Select
 						options={backgroundColors}
 						selected={backgroundColor}
 						onChange={changeBackgroundColor}
 						title='цвет фона'
 					/>
-					<Spacer size={50} />
+					<div className={styles.spacing} />
 					<Select
 						options={contentWidthArr}
 						selected={contentWidth}
 						onChange={changeContentWidth}
 						title='ширина контента'
 					/>
-					<Spacer size={207} />
+					<div className={styles.bottomSpacing} />
 					<div className={styles.bottomContainer}>
-						<Button
-							title='Сбросить'
-							htmlType='reset'
-							type='clear'
-							onClick={handleOnClickButtonReset}
-						/>
+						<Button title='Сбросить' htmlType='reset' type='clear' />
 						<Button title='Применить' htmlType='submit' type='apply' />
 					</div>
 				</form>

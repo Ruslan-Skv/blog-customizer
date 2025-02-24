@@ -17,7 +17,7 @@
 	flex-shrink: 0;
 	flex-direction: column;
 	box-sizing: border-box;
-	width: 616px;
+	width: 100%;
 	height: auto;
 	min-height: 100%;
 	padding: 50px 31px;
@@ -28,5 +28,12 @@
 .bottomContainer {
 	display: flex;
 	justify-content: space-between;
-	margin-top: auto;
+}
+
+.spacing {
+	margin-bottom: 50px;
+}
+
+.bottomSpacing {
+	margin-bottom: 207px;
 }
