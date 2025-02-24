@@ -58,22 +58,6 @@ export const ArticleParamsForm = ({ onChange }: ArticleParamsFormProps) => {
 	const toggleStateMenu = () => {
 		setIsMenuOpen((prev) => !prev);
 	};
-	// Обработчики изменения параметров
-	// const changeFontFamily = (option: OptionType) => {
-	// 	setFontFamily(option);
-	// };
-	// const changeFontSize = (option: OptionType) => {
-	// 	setFontSize(option);
-	// };
-	// const changeBackgroundColor = (option: OptionType) => {
-	// 	setBackgroundColor(option);
-	// };
-	// const changeFontColor = (option: OptionType) => {
-	// 	setFontColor(option);
-	// };
-	// const changeContentWidth = (option: OptionType) => {
-	// 	setContentWidth(option);
-	// };
 
 	// Обработчик отправки формы
 	const handleSubmitForm = (e: FormEvent<HTMLFormElement>) => {
@@ -89,7 +73,7 @@ export const ArticleParamsForm = ({ onChange }: ArticleParamsFormProps) => {
 	};
 
 	// Обработчик сброса формы к начальным значениям
-	const handleOnClickButtonReset = () => {
+	const handleResetForm = () => {
 		// Вызов функции onChange с начальным состоянием
 		onChange(defaultArticleState);
 		// Сброс всех состояний к начальным значениям
@@ -110,18 +94,16 @@ export const ArticleParamsForm = ({ onChange }: ArticleParamsFormProps) => {
 				<form
 					className={styles.form}
 					onSubmit={handleSubmitForm}
-					onReset={handleOnClickButtonReset}>
+					onReset={handleResetForm}>
 					<Text as='h2' size={31} weight={800} uppercase>
 						Задайте параметры
 					</Text>
-					<div className={styles.spacing} />
 					<Select
 						options={fontFamilyOptions}
 						selected={fontFamily}
 						onChange={setFontFamily}
 						title='шрифт'
 					/>
-					<div className={styles.spacing} />
 					<RadioGroup
 						name='font-size'
 						options={fontSizeOptions}
@@ -129,30 +111,25 @@ export const ArticleParamsForm = ({ onChange }: ArticleParamsFormProps) => {
 						onChange={setFontSize}
 						title='размер шрифта'
 					/>
-					<div className={styles.spacing} />
 					<Select
 						options={fontColors}
 						selected={fontColor}
 						onChange={setFontColor}
 						title='цвет шрифта'
 					/>
-					<div className={styles.spacing} />
 					<Separator />
-					<div className={styles.spacing} />
 					<Select
 						options={backgroundColors}
 						selected={backgroundColor}
 						onChange={setBackgroundColor}
 						title='цвет фона'
 					/>
-					<div className={styles.spacing} />
 					<Select
 						options={contentWidthArr}
 						selected={contentWidth}
 						onChange={setContentWidth}
 						title='ширина контента'
 					/>
-					<div className={styles.bottomSpacing} />
 					<div className={styles.bottomContainer}>
 						<Button title='Сбросить' htmlType='reset' type='clear' />
 						<Button title='Применить' htmlType='submit' type='apply' />
