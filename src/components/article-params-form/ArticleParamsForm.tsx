@@ -17,12 +17,12 @@ import {
 import { useOutsideClickClose } from 'src/ui/select/hooks/useOutsideClickClose';
 
 import styles from './ArticleParamsForm.module.scss';
-import { useState, useRef, SyntheticEvent } from 'react';
+import { useState, useRef, FormEvent } from 'react';
 import clsx from 'clsx';
 
 // Тип для пропсов компонента ArticleParamsForm
 export type ArticleParamsFormProps = {
-	onChange: React.Dispatch<React.SetStateAction<ArticleStateType>>; // Функция для обновления состояния
+	onChange: (styleArticle: ArticleStateType) => void; // Функция для обновления состояния
 };
 
 export const ArticleParamsForm = ({ onChange }: ArticleParamsFormProps) => {
@@ -59,24 +59,24 @@ export const ArticleParamsForm = ({ onChange }: ArticleParamsFormProps) => {
 		setIsMenuOpen((prev) => !prev);
 	};
 	// Обработчики изменения параметров
-	const changeFontFamily = (option: OptionType) => {
-		setFontFamily(option);
-	};
-	const changeFontSize = (option: OptionType) => {
-		setFontSize(option);
-	};
-	const changeBackgroundColor = (option: OptionType) => {
-		setBackgroundColor(option);
-	};
-	const changeFontColor = (option: OptionType) => {
-		setFontColor(option);
-	};
-	const changeContentWidth = (option: OptionType) => {
-		setContentWidth(option);
-	};
+	// const changeFontFamily = (option: OptionType) => {
+	// 	setFontFamily(option);
+	// };
+	// const changeFontSize = (option: OptionType) => {
+	// 	setFontSize(option);
+	// };
+	// const changeBackgroundColor = (option: OptionType) => {
+	// 	setBackgroundColor(option);
+	// };
+	// const changeFontColor = (option: OptionType) => {
+	// 	setFontColor(option);
+	// };
+	// const changeContentWidth = (option: OptionType) => {
+	// 	setContentWidth(option);
+	// };
 
 	// Обработчик отправки формы
-	const handleOnSubmitForm = (e: SyntheticEvent) => {
+	const handleSubmitForm = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		// Вызов функции onChange с новым состоянием
 		onChange({
@@ -109,7 +109,7 @@ export const ArticleParamsForm = ({ onChange }: ArticleParamsFormProps) => {
 				})}>
 				<form
 					className={styles.form}
-					onSubmit={handleOnSubmitForm}
+					onSubmit={handleSubmitForm}
 					onReset={handleOnClickButtonReset}>
 					<Text as='h2' size={31} weight={800} uppercase>
 						Задайте параметры
@@ -118,7 +118,7 @@ export const ArticleParamsForm = ({ onChange }: ArticleParamsFormProps) => {
 					<Select
 						options={fontFamilyOptions}
 						selected={fontFamily}
-						onChange={changeFontFamily}
+						onChange={setFontFamily}
 						title='шрифт'
 					/>
 					<div className={styles.spacing} />
@@ -126,14 +126,14 @@ export const ArticleParamsForm = ({ onChange }: ArticleParamsFormProps) => {
 						name='font-size'
 						options={fontSizeOptions}
 						selected={fontSize}
-						onChange={changeFontSize}
+						onChange={setFontSize}
 						title='размер шрифта'
 					/>
 					<div className={styles.spacing} />
 					<Select
 						options={fontColors}
 						selected={fontColor}
-						onChange={changeFontColor}
+						onChange={setFontColor}
 						title='цвет шрифта'
 					/>
 					<div className={styles.spacing} />
@@ -142,14 +142,14 @@ export const ArticleParamsForm = ({ onChange }: ArticleParamsFormProps) => {
 					<Select
 						options={backgroundColors}
 						selected={backgroundColor}
-						onChange={changeBackgroundColor}
+						onChange={setBackgroundColor}
 						title='цвет фона'
 					/>
 					<div className={styles.spacing} />
 					<Select
 						options={contentWidthArr}
 						selected={contentWidth}
-						onChange={changeContentWidth}
+						onChange={setContentWidth}
 						title='ширина контента'
 					/>
 					<div className={styles.bottomSpacing} />
