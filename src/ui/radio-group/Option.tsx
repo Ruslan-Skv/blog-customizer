@@ -6,46 +6,47 @@ import { useEnterSubmit } from './hooks/useEnterSubmit';
 import styles from './RadioGroup.module.scss';
 
 type OptionProps = {
-	value: OptionType['value'];
-	title: OptionType['title'];
-	selected: OptionType;
-	groupName: string;
-	onChange?: (option: OptionType) => void;
-	option: OptionType;
+	value: OptionType['value'];  // Значение опции. Это уникальный идентификатор для радио-кнопки.
+	title: OptionType['title'];  // Текст опции, который отображается рядом с радио-кнопкой.
+	selected: OptionType;  // Выбранная опция. Это позволяет определить, активна ли текущая радио-кнопка.
+	groupName: string;  // Имя группы радио-кнопок. Это важно для группировки, чтобы только одна кнопка могла быть выбрана в группе.
+	onChange?: (option: OptionType) => void;  // Функция, которая будет вызвана при изменении выбранной опции. Она принимает новую выбранную опцию в качестве аргумента.
+	option: OptionType;  // Вся опция (для передачи в обработчик)
 };
 
 export const Option = (props: OptionProps) => {
 	const { value, title, selected, groupName, onChange, option } = props;
 
-	const optionRef = useRef<HTMLDivElement>(null);
+	const optionRef = useRef<HTMLDivElement>(null); // Создаем ссылку на DOM-элемент
 
-	const handleChange = () => onChange?.(option);
+	const handleChange = () => onChange?.(option);  // Функция для обработки изменения выбранной опции
 
-	useEnterSubmit({ onChange, option });
+	useEnterSubmit({ onChange, option });  // Используем кастомный хук для обработки нажатия Enter
 
-	const inputId = `${groupName}_radio_item_with_value__${value}`;
-	const isChecked = value === selected.title;
+	const inputId = `${groupName}_radio_item_with_value__${value}`;  // Генерируем уникальный идентификатор для input и label
+	const isChecked = value === selected.title;  // Проверяем, выбрана ли текущая опция
 
 	return (
 		<div
-			className={styles.item}
-			key={value}
-			data-checked={isChecked}
-			data-testid={inputId}
-			tabIndex={0}
-			ref={optionRef}>
+			className={styles.item} // Класс для стилизации контейнера
+			key={value} // Уникальный ключ для React (обязательно для списков)
+			data-checked={isChecked} // Атрибут для стилизации выбранной опции
+			data-testid={inputId} // Атрибут для тестирования
+			tabIndex={0} // Делаем элемент фокусируемым
+			ref={optionRef} // Ссылка на DOM-элемент
+			>
 			<input
-				className={styles.input}
-				type='radio'
-				name={groupName}
-				id={inputId}
-				value={value}
-				onChange={handleChange}
-				tabIndex={-1}
+				className={styles.input} // Класс для стилизации input
+				type='radio' // Тип элемента (радио-кнопка)
+				name={groupName} // Имя группы для группировки радио-кнопок
+				id={inputId} // Уникальный идентификатор для связи с label
+				value={value} // Значение опции
+				onChange={handleChange} // Обработчик изменения
+				tabIndex={-1} // Убираем элемент из последовательности фокусировки
 			/>
 			<label className={styles.label} htmlFor={inputId}>
 				<Text size={18} uppercase>
-					{title}
+					{title}  {/* Отображаем текст опции */}
 				</Text>
 			</label>
 		</div>
